@@ -1,0 +1,39 @@
+services:
+  http:
+    image: nginx:latest
+    container_name: HTTP
+    ports:
+      - "8080:80"
+    volumes:
+      - ../etape2/app:/app
+      - ../etape1/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - tp3-web
+    depends_on:
+      - script
+
+  script:
+    build:
+      context: ../etape2/php
+    container_name: SCRIPT
+    volumes:
+      - ../etape2/app:/app
+    networks:
+      - tp3-web
+    depends_on:
+      - data
+
+  data:
+    image: mariadb:latest
+    container_name: DATA
+    environment:
+      MARIADB_ROOT_PASSWORD: password
+    volumes:
+      - ../etape2/database.sql:/docker-entrypoint-initdb.d/database.sql
+    networks:
+      - tp3-web
+
+networks:
+  tp3-web:
+    driver: bridge
+
