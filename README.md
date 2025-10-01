@@ -31,3 +31,8 @@ docker run -d --name HTTP --network tp3-web -p 8080:80 -v ${pwd}/app:/app -v ${p
 Ouvrir http://localhost:8080/test.php
 
 ## Etape 3 : Convertir en Docker Compose
+```
+cd etape3
+docker-compose up -d
+```
+Tous les conteneurs sont reliés via le réseau Docker tp3-web, crée précedemment
