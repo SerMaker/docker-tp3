@@ -22,3 +22,12 @@ docker ps
 Ouvrir http://localhost:8080
 
 ## Etape 2 : Ajouter MariaDB + Affichage test.php
+```
+docker run -d --name DATA --network tp3-web -e MARIADB_ROOT_PASSWORD=password -v ${pwd}/etape2/database.sql:/docker-entrypoint-initdb.d/database.sql mariadb:latest
+docker build -t php-mysqli ./etape2/php
+docker run -d --name SCRIPT --network tp3-web -v ${pwd}/app:/app php-mysqli
+docker run -d --name HTTP --network tp3-web -p 8080:80 -v ${pwd}/app:/app -v ${pwd}/../etape1/nginx/default.conf:/etc/nginx/conf.d/default.conf nginx:latest
+```
+Ouvrir http://localhost:8080/test.php
+
+## Etape 3 : Convertir en Docker Compose
